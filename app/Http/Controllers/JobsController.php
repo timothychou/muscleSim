@@ -17,6 +17,13 @@ use App\Commands\startSimulation;
 
 class JobsController extends Controller {
 
+    public function runMatlab($filename)
+    {
+        /* runs the matlab function, hardcoded for now, but should accept the matlab function id also
+        */
+        exec('matlab -nodesktop -nosplash "function_name(' . $filename . ')"');
+    }
+
     /* none of jobs can be accessed without first logging in */
     public function __construct()
     {
@@ -109,12 +116,13 @@ class JobsController extends Controller {
 
             DB::table('variables')->insert($insert);
         }
-
+        #runMatlab($jobId . '.txt');
         Queue::push(new startSimulation());
         #$this->dispatch(new AddJob(array('title' => $post->title, 'simulation_id' => $post->simulation_id, 'id' => $jobId->id)));
         # should call func+simpleUnloadedTwitch(file_name, output_name)
         return redirect('jobs');
 	}
+
 
 
 
