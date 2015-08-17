@@ -117,7 +117,7 @@ class JobsController extends Controller {
             DB::table('variables')->insert($insert);
         }
         #runMatlab($jobId . '.txt');
-        Queue::push(new startSimulation());
+        #Queue::push(new startSimulation());
         #$this->dispatch(new AddJob(array('title' => $post->title, 'simulation_id' => $post->simulation_id, 'id' => $jobId->id)));
         # should call func+simpleUnloadedTwitch(file_name, output_name)
         return redirect('jobs');
