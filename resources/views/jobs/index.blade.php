@@ -18,6 +18,9 @@
                 <div class="Cell">
                     <p>Overlay</p>
                 </div>
+
+
+
                 <div class="Cell">
                     <p>Name</p>
                 </div>
@@ -36,6 +39,9 @@
                     <div class="Cell">
                         {!! Form::checkbox(  $job->id , null) !!}
                     </div>
+
+
+
                     <div class="Cell">
                         <p> {{ $job->title }}</p>
                     </div>
@@ -49,6 +55,22 @@
                             <p> {{$variable->name }}: {{ $variable->value }}</p>
                         </div>
                     @endforeach
+
+                    @for ($i = count($job->variables); $i < 2; $i++)
+                        <div class=Cell">
+                            <p>' '</p>
+                        </div>
+                    @endfor
+
+                    <div class="Cell">
+
+                        {!! Form::open(['method' => 'DELETE', 'route' => ['jobs.destroy', $job->id]]) !!}
+                            <div class="form-group">
+                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                            </div>
+                        {!! Form::close() !!}
+
+                    </div>
                 </div>
             @endforeach
         </div>

@@ -150,7 +150,9 @@ class JobsController extends Controller {
 	 */
 	public function show($id)
 	{
-		//
+        echo $id;
+        $job = Job::find($id);
+        return $job;
 	}
 
 	/**
@@ -161,7 +163,7 @@ class JobsController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+		return 'editing';
 	}
 
 	/**
@@ -172,7 +174,7 @@ class JobsController extends Controller {
 	 */
 	public function update($id)
 	{
-		//
+		return 'updating';
 	}
 
 	/**
@@ -183,7 +185,10 @@ class JobsController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+        $job = Job::find($id);
+		$job->delete();
+
+        return redirect('jobs');
 	}
 
 }
