@@ -19,6 +19,9 @@
                     <p>Overlay</p>
                 </div>
 
+                <div class="Cell">
+                    <p>Download</p>
+                </div>
 
 
                 <div class="Cell">
@@ -40,7 +43,9 @@
                         {!! Form::checkbox(  $job->id , null) !!}
                     </div>
 
-
+                    <div class="Cell">
+                        <a href="{{ url('/jobs', $job->id) }}"> download</a>
+                    </div>
 
                     <div class="Cell">
                         <p> {{ $job->title }}</p>

@@ -142,6 +142,8 @@ class JobsController extends Controller {
         return view('jobs.overlay', compact('ids', 'alpha'));
     }
 
+
+
 	/**
 	 * Display the specified resource.
 	 *
@@ -149,10 +151,14 @@ class JobsController extends Controller {
 	 * @return Response
 	 */
 	public function show($id)
-	{
-        echo $id;
+    {
         $job = Job::find($id);
-        return $job;
+        foreach ($job->variables as $curVar) {
+
+            echo $curVar->name;
+            echo $curVar->value;
+        }
+
 	}
 
 	/**
