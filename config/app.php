@@ -147,6 +147,7 @@ return [
 		'App\Providers\RouteServiceProvider',
         'Intervention\Image\ImageServiceProvider',
         'Illuminate\Broadcasting\BroadcastServiceProvider',
+        'Collective\Remote\RemoteSErviceProvider',
 
 	],
 
@@ -198,6 +199,7 @@ return [
         'Form'      => 'Illuminate\Html\FormFacade',
         'Html'      => 'Illuminate\Html\HtmlFacade',
         'Image'     => 'Intervention\Image\Facades\Image',
+        'SSH'       => 'Collective\Remote\RemoteFace',
 
 	],
 

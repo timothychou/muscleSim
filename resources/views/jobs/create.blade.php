@@ -30,7 +30,10 @@
         {!! Form::label('variables', 'Variables:') !!}
         {!! Form::file('thumbnail') !!}
 
+        <a href="exampleInput">download example file</a>
     </div>
+
+
 
     <div id="parametersDiv">not working</div>
 

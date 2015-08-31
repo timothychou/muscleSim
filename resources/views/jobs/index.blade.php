@@ -20,9 +20,12 @@
                 </div>
 
                 <div class="Cell">
-                    <p>Download</p>
+                    <p>Download Input</p>
                 </div>
 
+                <div class="Cell">
+                    <p>Download Output</p>
+                </div>
 
                 <div class="Cell">
                     <p>Name</p>
@@ -45,6 +48,10 @@
 
                     <div class="Cell">
                         <a href="{{ url('/jobs', $job->id) }}"> download</a>
+                    </div>
+
+                    <div class="Cell">
+                        <a href="{{ url('/jobs/output', $job->id) }}"> download</a>
                     </div>
 
                     <div class="Cell">

@@ -15,13 +15,20 @@ use Illuminate\Support\Facades\Queue;
 use App\Commands\startSimulation;
 
 
+
 class JobsController extends Controller {
 
-    public function runMatlab($filename)
+    public function runMatlab($id)
     {
         /* runs the matlab function, hardcoded for now, but should accept the matlab function id also
         */
-        exec('matlab -nodesktop -nosplash "function_name(' . $filename . ')"');
+
+        echo 'processing';
+        echo exec('scp variables/' . $id . '.txt admin@130.132.20.134:~/parameters');
+        echo 'ssh admin@130.132.20.134 /Applications/MATLAB_R2015a.app/bin/matlab -nodesktop -noFigureWindows -nosplash -nodisplay -r "script_runSimCommLine\\(' . "\\'/Users/admin/parameters/". $id . ".txt\\'" . '\\)"';
+        echo exec('ssh admin@130.132.20.134 /Applications/MATLAB_R2015a.app/bin/matlab -nodesktop -noFigureWindows -nosplash -nodisplay -r "script_runSimCommLine\\(' . "\\'/Users/admin/parameters/". $id . ".txt\\'" . '\\)"');
+        exec('scp admin@130.132.20.134:~/mfm_ldep_web/output_file.txt results/' . $id . '.txt');
+        echo 'done';
     }
 
     /* none of jobs can be accessed without first logging in */
@@ -64,7 +71,7 @@ class JobsController extends Controller {
 	 */
 	public function store(JobRequest $request)
 	{
-
+        echo "processing";
         /*
 		$job = new Job($request->only('title', 'simulation_id'));
 
@@ -94,6 +101,7 @@ class JobsController extends Controller {
 
             $file = Input::file('thumbnail');
             $file->move(public_path(). '/variables/', $jobId . '.txt');
+            $this->runMatlab($jobId);
             /*$file->move(public_path() . '/variables/', 'my-file.jpg');*/
         }else {
             /* no params file, so just take from form */
@@ -114,12 +122,18 @@ class JobsController extends Controller {
                 ];
             }
 
+            /*
+             * TODO: create .txt file in variable/$id.txt
+             */
+
             DB::table('variables')->insert($insert);
         }
         #runMatlab($jobId . '.txt');
         #Queue::push(new startSimulation());
         #$this->dispatch(new AddJob(array('title' => $post->title, 'simulation_id' => $post->simulation_id, 'id' => $jobId->id)));
         # should call func+simpleUnloadedTwitch(file_name, output_name)
+
+
         return redirect('jobs');
 	}
 
@@ -153,13 +167,29 @@ class JobsController extends Controller {
 	public function show($id)
     {
         $job = Job::find($id);
-        foreach ($job->variables as $curVar) {
 
-            echo $curVar->name;
-            echo $curVar->value;
-        }
+        return response()->download("variables/" . $id . ".txt");
+
 
 	}
+
+    /**
+     * Download an example input
+     */
+    public function exampleInput()
+    {
+        return response()->download("variables/test_params.txt");
+
+    }
+
+    /**
+     * Download output file
+     */
+    public function output($id)
+    {
+        return response()->download("results/" . $id . ".txt");
+    }
+
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -193,7 +223,8 @@ class JobsController extends Controller {
 	{
         $job = Job::find($id);
 		$job->delete();
-
+        exec('rm results/' . $id . '.txt');
+        exec('rm variables/' . $id . '.txt');
         return redirect('jobs');
 	}
 

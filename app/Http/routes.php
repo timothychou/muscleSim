@@ -26,6 +26,9 @@ Route::get('temp', function(){
 Route::get('jobs/ajax/parameters', 'AjaxController@postParameters');
 
 Route::get('jobs/overlay', 'JobsController@overlay');
+Route::get('jobs/exampleInput', 'JobsController@exampleInput');
+
+Route::get('jobs/output/{id}', 'JobsController@output');
 Route::resource('jobs', 'JobsController');
 
 Route::controllers([
@@ -34,7 +37,7 @@ Route::controllers([
 ]);
 
 
-Route::get('test', function(){
-    echo(shell_exec("ls 2>&1"));
+Route::get('test', 'JobsController@runMatlab');
 
-});
+
+
