@@ -147,7 +147,6 @@ return [
 		'App\Providers\RouteServiceProvider',
         'Intervention\Image\ImageServiceProvider',
         'Illuminate\Broadcasting\BroadcastServiceProvider',
-        'Collective\Remote\RemoteSErviceProvider',
 
 	],
 
