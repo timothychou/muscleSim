@@ -147,6 +147,7 @@ return [
 		'App\Providers\RouteServiceProvider',
         'Intervention\Image\ImageServiceProvider',
         'Illuminate\Broadcasting\BroadcastServiceProvider',
+        Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
 
 	],
 

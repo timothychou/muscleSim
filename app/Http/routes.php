@@ -39,5 +39,10 @@ Route::controllers([
 
 Route::get('test', 'JobsController@runMatlab');
 
+Route::get('tst', function(){
 
+    exec ('nohup ./runMatlab.sh 37 > /dev/null &');
 
+});
+
+Route::get('jobs/destroy/{id}', 'JobsController@destroy');

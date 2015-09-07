@@ -6,6 +6,10 @@
 @endsection
 @section('content')
 
+    @if (Session::has('floash_message'))
+        <div class="alert alert-success">{{ Session::get('flash_message') }}</div>
+    @endif
+
     <h1>Create a new job</h1>
 
     <hr/>

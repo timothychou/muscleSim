@@ -3,7 +3,61 @@
 @section('content')
 
     <h1> Jobs </h1>
+        <div class="Table">
+            <div class="Title">
+                <p> Running Jobs</p>
+            </div>
 
+            <div class="Heading">
+                <div class="Cell">
+                    <p> ID</p>
+                </div>
+
+                <div class="Cell">
+                    <p>Download Input</p>
+                </div>
+
+                <div class="Cell">
+                    <p>Name</p>
+                </div>
+
+                <div class="Cell">
+                    <p>Job Type</p>
+                </div>
+
+                <div class="Cell">
+                    <p>Parameters</p>
+                </div>
+
+            </div>
+
+            @foreach($unFinishedJobs as $job)
+                <div class="Row">
+                    <div class="Cell">
+                        <p> {{ $job->id }} </p>
+                    </div>
+
+                    <div class="Cell">
+                        <a href="{{ url('/jobs', $job->id) }}"> download</a>
+                    </div>
+
+                    <div class="Cell">
+                        <p> {{ $job->title }}</p>
+                    </div>
+
+                    <div class="Cell">
+                        <p> {{ $job->simulation->name }}</p>
+                    </div>
+
+                    @foreach ($job->variables as $variable)
+                        <div class="Cell">
+                            <p> {{$variable->name }}: {{ $variable->value }}</p>
+                        </div>
+                    @endforeach
+
+                </div>
+            @endforeach
+        </div>
 
 
 
@@ -11,7 +65,7 @@
         {!! Form::open(['url' => 'jobs/overlay', 'method' => 'get']) !!}
         <div class="Table">
             <div class="Title">
-                <p>Jobs</p>
+                <p>Finished Jobs</p>
             </div>
 
             <div class="Heading">
@@ -40,7 +94,7 @@
                 </div>
             </div>
 
-            @foreach ($jobs as $job)
+            @foreach ($finishedJobs as $job)
                 <div class="Row">
                     <div class="Cell">
                         {!! Form::checkbox(  $job->id , null) !!}
@@ -75,13 +129,18 @@
                     @endfor
 
                     <div class="Cell">
-
+                        <!--
+                        Correct way to delete stuff
                         {!! Form::open(['method' => 'DELETE', 'route' => ['jobs.destroy', $job->id]]) !!}
                             <div class="form-group">
                                  {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
                             </div>
                         {!! Form::close() !!}
+                        /-->
 
+                        <!-- HTTP has a DELETE method, so it's probably better to use that, but we can't nest forms
+                        , so.... -->
+                        <a class="btn btn-danger" href="{{ url('/jobs/destroy', $job->id) }}">Delete</a>
                     </div>
                 </div>
             @endforeach

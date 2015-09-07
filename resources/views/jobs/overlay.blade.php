@@ -3,8 +3,10 @@
 @section('content')
     <a href="/jobs">back</a>
 
-    @foreach ($ids as $id)
+    <div id="graph_div"></div>
 
-        <img src="/images/test{{ $id }}.png" style="opacity: {{ $alpha }}; position: absolute; top: 50px; left: 50px;">
-    @endforeach
+    <?php echo \Lava::render('LineChart', 'Graph', 'graph_div') ?>
+
+
+
 @endsection

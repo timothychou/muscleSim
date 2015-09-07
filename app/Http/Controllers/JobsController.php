@@ -15,20 +15,25 @@ use Illuminate\Support\Facades\Queue;
 use App\Commands\startSimulation;
 
 
-
 class JobsController extends Controller {
+
+
+
+
 
     public function runMatlab($id)
     {
         /* runs the matlab function, hardcoded for now, but should accept the matlab function id also
         */
-
+        exec ('nohup ./runMatlab.sh ' . $id .' > /dev/null &');
+        /*
         echo 'processing';
         echo exec('scp variables/' . $id . '.txt admin@130.132.20.134:~/parameters');
         echo 'ssh admin@130.132.20.134 /Applications/MATLAB_R2015a.app/bin/matlab -nodesktop -noFigureWindows -nosplash -nodisplay -r "script_runSimCommLine\\(' . "\\'/Users/admin/parameters/". $id . ".txt\\'" . '\\)"';
         echo exec('ssh admin@130.132.20.134 /Applications/MATLAB_R2015a.app/bin/matlab -nodesktop -noFigureWindows -nosplash -nodisplay -r "script_runSimCommLine\\(' . "\\'/Users/admin/parameters/". $id . ".txt\\'" . '\\)"');
         exec('scp admin@130.132.20.134:~/mfm_ldep_web/output_file.txt results/' . $id . '.txt');
         echo 'done';
+        */
     }
 
     /* none of jobs can be accessed without first logging in */
@@ -43,10 +48,12 @@ class JobsController extends Controller {
 	 */
 	public function index()
 	{
+        $finishedJobs = \Auth::user()->jobs()->Finished()->latest('posted_at')->get();
+        $unFinishedJobs = \Auth::user()->jobs()->Unfinished()->latest('posted_at')->get();
 		$jobs = \Auth::user()->jobs()->latest('posted_at')->get();
          //   Job::latest('posted_at')->get();
 
-        return view('jobs.index', compact('jobs'));
+        return view('jobs.index', compact('jobs', 'finishedJobs', 'unFinishedJobs'));
 
 	}
 
@@ -97,11 +104,43 @@ class JobsController extends Controller {
              * TODO: parse file to generate params and add to database
              *
              */
+
+
+
+
         {
 
             $file = Input::file('thumbnail');
             $file->move(public_path(). '/variables/', $jobId . '.txt');
-            $this->runMatlab($jobId);
+            $fileData = fopen('variables/' . $jobId . '.txt', 'r');
+            $insert = [];
+            while (($line = fgetcsv($fileData, 0, ' ')) != FALSE)
+            {
+                $param = \App\Simulation::find($post->simulation_id)->parameters()->where('name', $line[0])->get();
+                if (count($param) < 1)
+                {
+                    echo 'input file not formatted correctly';
+                    echo '      ';
+                    echo count($line);
+                    echo $line[0];
+                    echo $line[1];
+                    return;
+                }else
+                {
+                    $param = $param[0];
+                }
+                $insert[] = [
+                    'job_id' => $jobId,
+                    'parameter_id' => $param->id,
+                    'name' => $param->name,
+                    'value' => $line[1],
+                    'updated_at' => \Carbon\Carbon::now(),
+                    'created_at' => \Carbon\Carbon::now(),
+
+                ];
+            }
+
+            DB::table('variables')->insert($insert);
             /*$file->move(public_path() . '/variables/', 'my-file.jpg');*/
         }else {
             /* no params file, so just take from form */
@@ -110,6 +149,7 @@ class JobsController extends Controller {
             $insert = [];
 
             foreach ($params as $paramId => $param) {
+                #note array[] = stuff is same as array.add(stuff) or array_push(array, stuff)
                 $insert[] = [
                     'job_id' => $jobId,
                     'parameter_id' => $paramId,
@@ -134,6 +174,8 @@ class JobsController extends Controller {
         # should call func+simpleUnloadedTwitch(file_name, output_name)
 
 
+        \Session::flash('message', 'Running Simulation');
+        $this->runMatlab($jobId);
         return redirect('jobs');
 	}
 
@@ -145,7 +187,44 @@ class JobsController extends Controller {
     {
 
         $ids = array_keys(Input::all());
-        $alpha = [];
+
+        # first check that we own all the id's
+
+
+
+        $data = \Lava::DataTable();
+        $data->addNumberColumn('Time');
+        $counter = 0;
+        foreach ($ids as $id)
+        {
+            $job = \Auth::user()->jobs()->find($id);
+            if ($job)
+            {
+                $data->addNumberColumn($job->name);
+
+                #open file and add data from csv
+                $file = fopen('results/' . $id . '.txt', 'r');
+                while (($line = fgetcsv($file)) != FALSE) #one line at a time
+                {
+                    $row = array_fill(0, 2 + $counter, NULL);
+                    $row[0] = $line[1];
+                    $row[$counter + 1] = $line[2];
+                    $data->addRow($row);
+                }
+                $counter++;
+            }else {
+                echo 'Jobs not found';
+                return;
+            }
+        }
+
+
+
+
+        $linechart = \Lava::LineChart('Graph')->dataTable($data)->title('Overlay');
+
+        return view('jobs.overlay');
+        /*$alpha = [];
 
 
 
@@ -153,22 +232,25 @@ class JobsController extends Controller {
             return "error, 0 selected";
         }
         $alpha = 1.0 / count($ids);
-        return view('jobs.overlay', compact('ids', 'alpha'));
+        return view('jobs.overlay', compact('ids', 'alpha'));*/
     }
 
 
 
 	/**
 	 * Display the specified resource.
-	 *
+	 * Download the input file
 	 * @param  int  $id
 	 * @return Response
 	 */
 	public function show($id)
     {
-        $job = Job::find($id);
+        if ($job = \Auth::user()->jobs->find($id)) {
 
-        return response()->download("variables/" . $id . ".txt");
+            return response()->download("variables/" . $id . ".txt");
+        }else{
+            echo "Job could not be found";
+        }
 
 
 	}
@@ -187,7 +269,11 @@ class JobsController extends Controller {
      */
     public function output($id)
     {
-        return response()->download("results/" . $id . ".txt");
+        if (\Auth::user()->jobs()->find($id)){
+            return response()->download("results/" . $id . ".txt");
+        }else{
+            echo "Job could not be found";
+        }
     }
 
 
