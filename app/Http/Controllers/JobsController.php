@@ -200,7 +200,7 @@ class JobsController extends Controller {
             $job = \Auth::user()->jobs()->find($id);
             if ($job)
             {
-                $data->addNumberColumn($job->name);
+                $data->addNumberColumn($job->title);
 
                 #open file and add data from csv
                 $file = fopen('results/' . $id . '.txt', 'r');
@@ -208,7 +208,7 @@ class JobsController extends Controller {
                 {
                     $row = array_fill(0, 2 + $counter, NULL);
                     $row[0] = $line[1];
-                    $row[$counter + 1] = $line[2];
+                    $row[$counter + 1] = $line[0];
                     $data->addRow($row);
                 }
                 $counter++;
