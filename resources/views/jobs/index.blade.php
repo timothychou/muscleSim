@@ -14,9 +14,11 @@
             </div>
 
             <div class="Heading">
+                <!--
                 <div class="Cell">
                     <p> ID</p>
                 </div>
+                -->
 
                 <div class="Cell">
                     <p>Download Input</p>
@@ -38,9 +40,11 @@
 
             @foreach($unFinishedJobs as $job)
                 <div class="Row">
+                    <!--
                     <div class="Cell">
                         <p> {{ $job->id }} </p>
                     </div>
+                    -->
 
                     <div class="Cell">
                         <a href="{{ url('/jobs', $job->id) }}"> download</a>
@@ -78,9 +82,11 @@
                     <p>Overlay</p>
                 </div>
 
+                <!--
                 <div class="Cell">
                     <p>ID</p>
                 </div>
+                -->
 
                 <div class="Cell">
                     <p>Download Input</p>
@@ -109,16 +115,18 @@
                         {!! Form::checkbox(  $job->id , null) !!}
                     </div>
 
+                    <!--
                     <div class="Cell">
                         <p> {{ $job->id }}</p>
                     </div>
+                    -->
 
                     <div class="Cell">
-                        <a href="{{ url('/jobs', $job->id) }}"> download</a>
+                        <a href="{{ url('/jobs', $job->id) }}"> Download</a>
                     </div>
 
                     <div class="Cell">
-                        <a href="{{ url('/jobs/output', $job->id) }}"> download</a>
+                        <a href="{{ url('/jobs/output', $job->id) }}"> Download</a>
                     </div>
 
                     <div class="Cell">
