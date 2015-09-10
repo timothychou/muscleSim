@@ -19,7 +19,7 @@ class CreateParametersTable extends Migration {
             $table->integer('simulation_id')->unsigned();
             $table->string('type');
             $table->string('name');
-
+            $table->string('defaultVal');
             $table->foreign('simulation_id')
                   ->references('id')
                   ->on('simulations')

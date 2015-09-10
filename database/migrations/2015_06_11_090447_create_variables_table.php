@@ -19,7 +19,7 @@ class CreateVariablesTable extends Migration {
             $table->integer('job_id')->unsigned();
             $table->integer('parameter_id')->unsigned();
             $table->string('name');
-            $table->integer('value');
+            $table->string('value');
 
             $table->foreign('job_id')
                   ->references('id')

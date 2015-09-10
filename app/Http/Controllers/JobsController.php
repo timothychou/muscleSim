@@ -105,9 +105,6 @@ class JobsController extends Controller {
              *
              */
 
-
-
-
         {
 
             $file = Input::file('thumbnail');
@@ -147,24 +144,27 @@ class JobsController extends Controller {
 
 
             $insert = [];
-
+            $inputString = '';
             foreach ($params as $paramId => $param) {
                 #note array[] = stuff is same as array.add(stuff) or array_push(array, stuff)
+                $paramName = \App\Parameter::findOrFail($paramId)->name;
                 $insert[] = [
                     'job_id' => $jobId,
                     'parameter_id' => $paramId,
-                    'name' => \App\Parameter::findOrFail($paramId)->name,
+                    'name' => $paramName,
                     'value' => $param,
 
                     'updated_at' => \Carbon\Carbon::now(),
                     'created_at' => \Carbon\Carbon::now(),
 
                 ];
+
+                $inputString .= $paramName . ' ' . $param . PHP_EOL;
             }
 
-            /*
-             * TODO: create .txt file in variable/$id.txt
-             */
+            # create input file
+            file_put_contents('variables/' . $jobId . '.txt', $inputString);
+
 
             DB::table('variables')->insert($insert);
         }
@@ -256,11 +256,12 @@ class JobsController extends Controller {
 	}
 
     /**
-     * Download an example input
+     * Download an example input from simulation_id
      */
-    public function exampleInput()
+    public function exampleInput($id)
     {
-        return response()->download("variables/test_params.txt");
+        $simulation = \App\Simulation::findOrFail($id);
+        return response()->download("parameters/" . $id . "/" . $simulation->name . ".txt");
 
     }
 

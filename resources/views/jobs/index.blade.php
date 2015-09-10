@@ -1,5 +1,10 @@
 @extends('app')
 
+@section('head')
+
+    <meta http-equiv="refresh" content="30">
+
+@endsection
 @section('content')
 
     <h1> Jobs </h1>
@@ -74,6 +79,10 @@
                 </div>
 
                 <div class="Cell">
+                    <p>ID</p>
+                </div>
+
+                <div class="Cell">
                     <p>Download Input</p>
                 </div>
 
@@ -98,6 +107,10 @@
                 <div class="Row">
                     <div class="Cell">
                         {!! Form::checkbox(  $job->id , null) !!}
+                    </div>
+
+                    <div class="Cell">
+                        <p> {{ $job->id }}</p>
                     </div>
 
                     <div class="Cell">

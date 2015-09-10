@@ -33,8 +33,11 @@
     <div class="form-group">
         {!! Form::label('variables', 'Variables:') !!}
         {!! Form::file('thumbnail') !!}
+        <div id="exampleDiv">
+            <a href="exampleDownload">download example file</a>
+        </div>
 
-        <a href="exampleInput">download example file</a>
+
     </div>
 
 
@@ -60,6 +63,10 @@
 
             });
 
+            $.get('ajax/simulations', {simulation_id: $('#simulation_id').val()}).done(function(data){
+                $('#exampleDiv').html(data);
+            });
+
             $('#simulation_id').change(function(){
 
                 $.get('ajax/parameters',  {simulation_id: $('#simulation_id').val()}).done(function(data){
@@ -68,6 +75,11 @@
                     alert("Data Loaded: " + data);
                     */
                 });
+
+                $.get('ajax/simulations', {simulation_id: $('#simulation_id').val()}).done(function(data){
+                    $('#exampleDiv').html(data);
+                });
+
             });
         });
     </script>

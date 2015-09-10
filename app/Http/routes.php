@@ -24,9 +24,10 @@ Route::get('temp', function(){
 });
 
 Route::get('jobs/ajax/parameters', 'AjaxController@postParameters');
+Route::get('jobs/ajax/simulations', 'AjaxController@postDownload');
 
 Route::get('jobs/overlay', 'JobsController@overlay');
-Route::get('jobs/exampleInput', 'JobsController@exampleInput');
+Route::get('jobs/exampleInput/{id}', 'JobsController@exampleInput');
 
 Route::get('jobs/output/{id}', 'JobsController@output');
 Route::resource('jobs', 'JobsController');
@@ -46,3 +47,8 @@ Route::get('tst', function(){
 });
 
 Route::get('jobs/destroy/{id}', 'JobsController@destroy');
+
+$debug = False;
+if ($debug) {
+    Route::resource('simulations', 'SimulationsController');
+}

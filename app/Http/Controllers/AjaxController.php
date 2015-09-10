@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 
 class AjaxController extends Controller {
 
-
+    /**
+     * @return html for parameter fields in job creation form
+     */
     public function postParameters()
     {
         //return "ajax worked!";
@@ -22,13 +24,25 @@ class AjaxController extends Controller {
         foreach ($parameters as $parameter){
             $html .= '<div class="form-group">';
             $html .= '<label for="title">' . $parameter->name . '(' . $parameter->type . ')</label>';
-            $html .= '<input class="form-control" name="parameter[' . $parameter->id . ']" type="text">';
+            $html .= '<input class="form-control" name="parameter[' . $parameter->id . ']" type="text" value="'. $parameter->defaultVal .'">';
             $html .= '</div>';
 
 
         }
         return $html;
 
+    }
+
+    /**
+     * @return html for example download in job creation form
+     */
+    public function postDownload()
+    {
+        $post = (object)Input::all();
+        $simulation_id = $post->simulation_id;
+
+        $html = '<a href="exampleInput/' . $simulation_id . '">download example file</a>';
+        return $html;
     }
 
 	/**
