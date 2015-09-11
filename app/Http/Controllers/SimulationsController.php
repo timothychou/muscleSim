@@ -62,19 +62,22 @@ class SimulationsController extends Controller
         # parse file
         $fileData = fopen('parameters/' . $simulationID . '/' . $post->name . '.txt', 'r');
         $insert = [];
+        $defaultFile = '';
         while (($line = fgetcsv($fileData, 0, ' ')) != FALSE)
         {
             $insert[] = [
                 'name' => $line[0],
-                'type' => 'float',
+                'type' => implode(' ', array_slice($line, 2)),
                 'defaultVal' => $line[1],
                 'simulation_id' => $simulationID,
                 'updated_at' => \Carbon\Carbon::now(),
                 'created_at' => \Carbon\Carbon::now()
             ];
+
+            $defaultFile .= $line[0] . ' ' . $line[1] . PHP_EOL;
         }
 
-
+        file_put_contents('parameters/' . $simulationID . '/' . $post->name . '.txt', $defaultFile);
         DB::table('parameters')->insert($insert);
 
         return redirect('simulations');
@@ -122,6 +125,9 @@ class SimulationsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $simulation = Simulation::find($id);
+        $simulation->delete();
+        exec('rm -rf parameters/' . $id);
+        return redirect('simulations');
     }
 }

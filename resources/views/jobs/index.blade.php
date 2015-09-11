@@ -1,13 +1,19 @@
 @extends('app')
 
 @section('head')
+    @if (count($unFinishedJobs) > 0)
+        <meta http-equiv="refresh" content="30">
+    @endif
 
-    <meta http-equiv="refresh" content="30">
+
 
 @endsection
 @section('content')
 
     <h1> Jobs </h1>
+        @if (count($unFinishedJobs) > 0)
+            <p>Page will re-fresh when your job is done running. Your job should complete within 60 seconds.</p>
+        @endif
         <div class="Table">
             <div class="Title">
                 <p> Running Jobs</p>
@@ -47,7 +53,7 @@
                     -->
 
                     <div class="Cell">
-                        <a href="{{ url('/jobs', $job->id) }}"> download</a>
+                        <a href="{{ url('/jobs', $job->id) }}"> Download</a>
                     </div>
 
                     <div class="Cell">

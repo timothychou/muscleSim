@@ -23,7 +23,7 @@ class AjaxController extends Controller {
         $html = "";
         foreach ($parameters as $parameter){
             $html .= '<div class="form-group">';
-            $html .= '<label for="title">' . $parameter->name . '(' . $parameter->type . ')</label>';
+            $html .= '<label for="title">' . $parameter->name . ' (' . $parameter->type . ')</label>';
             $html .= '<input class="form-control" name="parameter[' . $parameter->id . ']" type="text" value="'. $parameter->defaultVal .'">';
             $html .= '</div>';
 

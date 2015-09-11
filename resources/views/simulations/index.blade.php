@@ -21,6 +21,9 @@
         @foreach ($simulations as $simulation)
             <div class="Row">
                 <div class="Cell">
+                    <p> {{ $simulation->id }}</p>
+                </div>
+                <div class="Cell">
                     <p>{{ $simulation->name }} </p>
                 </div>
 
@@ -29,6 +32,9 @@
                         <p> {{ $parameter->name }}: {{ $parameter->defaultVal }}</p>
                     </div>
                 @endforeach
+                <div class="Cell">
+                    <a class="btn btn-danger" href="{{ url('/simulations/destroy', $simulation->id) }}">Delete</a>
+                </div>
             </div>
 
 
@@ -36,6 +42,8 @@
         @endforeach
 
     </div>
+
+    <a href="simulations/create">New Simulation</a>
 
 @endsection
 

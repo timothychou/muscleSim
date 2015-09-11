@@ -47,8 +47,8 @@ Route::get('tst', function(){
 });
 
 Route::get('jobs/destroy/{id}', 'JobsController@destroy');
-
-$debug = False;
+Route::get('simulations/destroy/{id}', 'SimulationsController@destroy');
+$debug = True;
 if ($debug) {
     Route::resource('simulations', 'SimulationsController');
 }

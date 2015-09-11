@@ -220,8 +220,13 @@ class JobsController extends Controller {
 
 
 
+        $hAxis = \Lava::HorizontalAxis(['title' => 'Time (ms)']);
+        $vAxis = \Lava::VerticalAxis(['title' => 'Sarcomere Length (µm)']);
 
-        $linechart = \Lava::LineChart('Graph')->dataTable($data)->title('Overlay');
+        $linechart = \Lava::LineChart('Graph')->dataTable($data)->title('Overlay')->hAxis($hAxis)->vAxis($vAxis);
+
+        # hard coded for now, axis labels
+
 
         return view('jobs.overlay');
         /*$alpha = [];
