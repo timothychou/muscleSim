@@ -57,7 +57,7 @@ class SimulationsController extends Controller
             'created_at'    => \Carbon\Carbon::now(),
         ]);
 
-        $file->move(public_path(). '/parameters/'. $simulationID . '/' , $post->name . '.txt'); #note comma, 2nd param is file name
+        $file->move('parameters/'. $simulationID . '/' , $post->name . '.txt'); #note comma, 2nd param is file name
 
         # parse file
         $fileData = fopen('parameters/' . $simulationID . '/' . $post->name . '.txt', 'r');

@@ -108,7 +108,7 @@ class JobsController extends Controller {
         {
 
             $file = Input::file('thumbnail');
-            $file->move(public_path(). '/variables/', $jobId . '.txt');
+            $file->move('variables/', $jobId . '.txt');
             $fileData = fopen('variables/' . $jobId . '.txt', 'r');
             $insert = [];
             while (($line = fgetcsv($fileData, 0, ' ')) != FALSE)
