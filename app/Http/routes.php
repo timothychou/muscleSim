@@ -27,6 +27,8 @@ Route::get('jobs/ajax/parameters', 'AjaxController@postParameters');
 Route::get('jobs/ajax/simulations', 'AjaxController@postDownload');
 
 Route::get('jobs/overlay', 'JobsController@overlay');
+Route::get('jobs/overlaySelect', 'JobsController@overlaySelect');
+
 Route::get('jobs/exampleInput/{id}', 'JobsController@exampleInput');
 
 Route::get('jobs/output/{id}', 'JobsController@output');

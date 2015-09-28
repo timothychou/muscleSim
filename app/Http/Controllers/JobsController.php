@@ -185,8 +185,13 @@ class JobsController extends Controller {
 
     public function overlay()
     {
+        $data = Input::all();
+        $x_var = $data['x_variable'];
+        $y_var = $data['y_variable'];
+        unset($data['x_variable']);
+        unset($data['y_variable']);
 
-        $ids = array_keys(Input::all());
+        $ids = array_keys($data);
 
         # first check that we own all the id's
 
@@ -204,11 +209,15 @@ class JobsController extends Controller {
 
                 #open file and add data from csv
                 $file = fopen('results/' . $id . '.txt', 'r');
+                $line = fgetcsv($file);
+                $x_idx = array_search($x_var, $line);
+                $y_idx = array_search($y_var, $line);
+
                 while (($line = fgetcsv($file)) != FALSE) #one line at a time
                 {
                     $row = array_fill(0, 2 + $counter, NULL);
-                    $row[0] = $line[1];
-                    $row[$counter + 1] = $line[0];
+                    $row[0] = $line[$x_idx];
+                    $row[$counter + 1] = $line[$y_idx];
                     $data->addRow($row);
                 }
                 $counter++;
@@ -219,9 +228,8 @@ class JobsController extends Controller {
         }
 
 
-
-        $hAxis = \Lava::HorizontalAxis(['title' => 'Time (ms)']);
-        $vAxis = \Lava::VerticalAxis(['title' => 'Sarcomere Length (µm)']);
+        $hAxis = \Lava::HorizontalAxis(['title' => $x_var]);
+        $vAxis = \Lava::VerticalAxis(['title' => $y_var]);
 
         $linechart = \Lava::LineChart('Graph')->dataTable($data)->title('Overlay')->hAxis($hAxis)->vAxis($vAxis);
 
@@ -238,6 +246,12 @@ class JobsController extends Controller {
         }
         $alpha = 1.0 / count($ids);
         return view('jobs.overlay', compact('ids', 'alpha'));*/
+    }
+
+    public function overlaySelect()
+    {
+        $finishedJobs = \Auth::user()->jobs()->Finished()->latest('posted_at')->get();
+        return view('jobs.overlaySelect', compact('finishedJobs'));
     }
 
 

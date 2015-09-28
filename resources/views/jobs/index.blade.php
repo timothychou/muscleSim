@@ -77,7 +77,7 @@
 
 
 
-        {!! Form::open(['url' => 'jobs/overlay', 'method' => 'get']) !!}
+        {!! Form::open(['url' => 'jobs/overlaySelect', 'method' => 'get']) !!}
         <div class="Table">
             <div class="Title">
                 <p>Finished Jobs</p>
@@ -172,6 +172,8 @@
                 </div>
             @endforeach
         </div>
+
+
 
         <div class="form-group">
             {!! Form::submit('Overlay images', ['class' => 'btn btn-primary form-control']) !!}

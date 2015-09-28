@@ -1,7 +1,9 @@
 @extends('app')
 
 @section('content')
-    <a href="/jobs">back</a>
+
+
+    <a href="/jobs/overlaySelect">back</a>
 
     <div id="graph_div"></div>
 
