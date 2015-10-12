@@ -1,7 +1,11 @@
 @extends('app')
 
 @section('content')
+    <a class="Menu" href="/jobs">Jobs</a>
+    <a class="Menu" href="/jobs/create">New Job</a>
+    <b class="Menu" >Overlay</b>
 
+    <h1>Overlay Selection</h1>
     {!! Form::open(['url' => 'jobs/overlay', 'method' => 'get']) !!}
 
     <div class="form-group">

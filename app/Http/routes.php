@@ -11,6 +11,8 @@
 |
 */
 
+
+
 Route::get('/', 'RootController@index');
 Route::get('home', function()
 {

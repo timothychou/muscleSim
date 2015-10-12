@@ -6,6 +6,10 @@
 @endsection
 @section('content')
 
+    <a href="/jobs" class="Menu">Jobs</a>
+    <b class="Menu" href="/jobs/create">New Job</b>
+    <a class="Menu" href="/jobs/overlaySelect">Overlay</a>
+
     @if (Session::has('floash_message'))
         <div class="alert alert-success">{{ Session::get('flash_message') }}</div>
     @endif

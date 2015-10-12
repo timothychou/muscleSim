@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     @if (Auth::check())
-        <a href="auth/logout" style="float: right; padding-right: 2cm">logout</a>
+        <a href="auth/logout" style="float: right; padding-right: 2cm">Logout</a>
     @endif
     @yield('head')
 </head>
@@ -23,7 +23,12 @@
     </div>
 
     @yield('footer')
-
+    <style type="text/css">
+        .Menu
+        {
+        padding-right: 25px;
+        }
+    </style>
 </body>
 </html>
 

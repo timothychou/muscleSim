@@ -4,6 +4,7 @@
 
     <h1>Online Muscle Sim</h1>
     <h2><a href="/auth/login" style="right:10; top:0">Login</a></h2>
+    <h2><a href="/auth/register" style="...">Register</a></h2>
     <hr/>
 
     <body>

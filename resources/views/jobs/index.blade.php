@@ -10,6 +10,9 @@
 @endsection
 @section('content')
 
+    <b class="Menu">Jobs</b>
+    <a class="Menu" href="/jobs/create">New Job</a>
+    <a class="Menu" href="/jobs/overlaySelect">Overlay</a>
     <h1> Jobs </h1>
         @if (count($unFinishedJobs) > 0)
             <p>Page will re-fresh when your job is done running. Your job should complete within 60 seconds.</p>
@@ -76,19 +79,21 @@
 
 
 
-
+        <!--
         {!! Form::open(['url' => 'jobs/overlaySelect', 'method' => 'get']) !!}
+        -->
         <div class="Table">
             <div class="Title">
                 <p>Finished Jobs</p>
             </div>
 
             <div class="Heading">
+                <!--
                 <div class="Cell">
                     <p>Overlay</p>
                 </div>
 
-                <!--
+
                 <div class="Cell">
                     <p>ID</p>
                 </div>
@@ -117,11 +122,12 @@
 
             @foreach ($finishedJobs as $job)
                 <div class="Row">
+                    <!--
                     <div class="Cell">
                         {!! Form::checkbox(  $job->id , null) !!}
                     </div>
 
-                    <!--
+
                     <div class="Cell">
                         <p> {{ $job->id }}</p>
                     </div>
@@ -174,15 +180,15 @@
         </div>
 
 
-
+        <!--
         <div class="form-group">
             {!! Form::submit('Overlay images', ['class' => 'btn btn-primary form-control']) !!}
         </div>
 
         {!! Form::close() !!}
+        -->
 
 
-    <a href="jobs/create">New job</a>
 @endsection
 
 @section('footer')
@@ -231,6 +237,8 @@
             padding-left: 5px;
             padding-right: 5px;
         }
+
+
     </style>
     <script>
         $(document).ready(function(){

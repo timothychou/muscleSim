@@ -149,6 +149,7 @@ return [
         'Intervention\Image\ImageServiceProvider',
         'Illuminate\Broadcasting\BroadcastServiceProvider',
         Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
+        'Lavary\Menu\ServiceProvider',
 
 	],
 
@@ -201,6 +202,7 @@ return [
         'Html'      => 'Illuminate\Html\HtmlFacade',
         'Image'     => 'Intervention\Image\Facades\Image',
         'SSH'       => 'Collective\Remote\RemoteFace',
+        'Menu'      => 'Lavary\Menu\Facade',
 
 	],
 
